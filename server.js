@@ -12,8 +12,12 @@ const swaggerSpec = require('./src/config/swagger');
 const app = express();
 const server = http.createServer(app);
 
-// Permitir múltiples orígenes para desarrollo
-const CORS_ORIGINS = ['http://localhost:5180', 'http://localhost:5173'];
+// Permitir múltiples orígenes (desarrollo + producción)
+const CORS_ORIGINS = [
+  'http://localhost:5180',
+  'http://localhost:5173',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
 app.use(cors({ origin: CORS_ORIGINS, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
